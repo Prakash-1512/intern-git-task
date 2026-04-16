@@ -1,16 +1,24 @@
-name: CI Pipeline
+name: CI + Security
 
 on:
   push:
     branches: [ "main" ]
 
 jobs:
-  build:
+  security:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Show files
-        run: ls -la
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: javascript
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v2
+
+      - name: Analyze
+        uses: github/codeql-action/analyze@v2
